@@ -2,11 +2,11 @@
 
 from pathlib import Path
 
-from django_shopping_cart import secret_key
+from django_shopping_cart import secret_key, server_config
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = server_config.BASE_DIR
 
 
 # Quick-start development settings - unsuitable for production
@@ -16,7 +16,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = secret_key.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = server_config.DEBUG
 
 ALLOWED_HOSTS = ['*']
 
@@ -72,7 +72,7 @@ WSGI_APPLICATION = 'django_shopping_cart.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': server_config.DB_NAME,
     }
 }
 
@@ -114,6 +114,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# media files
+
+MEDIA_ROOT = server_config.MEDIA_ROOT
+MEDIA_URL = '/media/'
+
 
 # rest_framework
 
