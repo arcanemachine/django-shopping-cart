@@ -2,10 +2,15 @@ from django.conf import settings
 from django.db import models
 
 
+def name_file(instance, filename):
+    return '/'.join(['images', str(instance.name), filename])
+
+
 class Store(models.Model):
     registrant = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=128)
+    image = models.ImageField(upload_to=name_file, blank=True, null=True)
 
 
 class Category(models.Model):

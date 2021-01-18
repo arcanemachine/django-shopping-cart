@@ -6,12 +6,14 @@ class StoreSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Store
-        fields = ['id', 'name', 'registrant']
+        fields = ['id', 'name', 'registrant', 'image']
         read_only_fields = ['registrant']
 
     def create(self, validated_data):
         registrant = self.context['request'].user
-        store = Store.objects.create(registrant=registrant, **validated_data)
+        image = self.context['request'].data['file']
+        store = Store.objects.create(
+            registrant=registrant, image=image, **validated_data)
         return store
 
 

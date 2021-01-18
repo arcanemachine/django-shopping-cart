@@ -50,7 +50,7 @@ ROOT_URLCONF = 'django_shopping_cart.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': server_config.TEMPLATE_DIRS,
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -114,6 +114,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = server_config.STATICFILES_DIRS
+STATIC_ROOT = server_config.STATIC_ROOT
 
 
 # media files
