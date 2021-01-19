@@ -18,6 +18,7 @@ class Category(models.Model):
     store = models.ForeignKey('Store', on_delete=models.CASCADE)
     name = models.CharField(max_length=128)
     description = models.CharField(max_length=255)
+    image = models.ImageField(upload_to=name_file, blank=True, null=True)
 
 
 class Item(models.Model):
@@ -25,3 +26,4 @@ class Item(models.Model):
     name = models.CharField(max_length=128)
     description = models.CharField(max_length=255)
     price = models.IntegerField(default=0)
+    image = models.ImageField(upload_to=name_file, blank=True, null=True)

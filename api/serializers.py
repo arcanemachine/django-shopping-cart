@@ -22,7 +22,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ['id', 'store', 'store_name', 'name', 'description']
+        fields = ['id', 'store', 'store_name', 'name', 'description', 'image']
         read_only_fields = ['store_name', 'store']
 
     def __init__(self, *args, **kwargs):
@@ -47,7 +47,7 @@ class ItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Item
-        fields = ['id', 'category', 'name', 'description', 'price']
+        fields = ['id', 'category', 'name', 'description', 'price', 'image']
         read_only_fields = ['category']
 
     def __init__(self, *args, **kwargs):
