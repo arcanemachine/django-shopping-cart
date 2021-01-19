@@ -44,7 +44,7 @@ class CategoryList(generics.ListCreateAPIView):
         return Category.objects.filter(store=self.kwargs['store_pk'])
 
 
-class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
+class StoreCategoryDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [HasStorePermissionsOrReadOnly]
     serializer_class = serializers.CategorySerializer
     lookup_url_kwarg = 'category_pk'
@@ -76,7 +76,7 @@ class ItemList(generics.ListCreateAPIView):
         return Item.objects.filter(category=self.kwargs['category_pk'])
 
 
-class ItemDetail(generics.RetrieveUpdateDestroyAPIView):
+class StoreItemDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [HasStorePermissionsOrReadOnly]
     serializer_class = serializers.ItemSerializer
     lookup_url_kwarg = 'item_pk'
@@ -88,3 +88,33 @@ class ItemDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return Item.objects.filter(pk=self.kwargs['store_pk'])
+
+
+# short urls
+
+class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [HasStorePermissionsOrReadOnly]
+    serializer_class = serializers.CategorySerializer
+    lookup_url_kwarg = 'category_pk'
+
+    def check_permissions(self, request):
+        super().check_permissions(request)
+        obj = self.get_queryset()
+        super().check_object_permissions(request, obj)
+
+    def get_queryset(self):
+        return Category.objects.filter(pk=self.kwargs['category_pk'])
+
+
+class ItemDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [HasStorePermissionsOrReadOnly]
+    serializer_class = serializers.ItemSerializer
+    lookup_url_kwarg = 'item_pk'
+
+    def check_permissions(self, request):
+        super().check_permissions(request)
+        obj = self.get_queryset()
+        super().check_object_permissions(request, obj)
+
+    def get_queryset(self):
+        return Item.objects.filter(pk=self.kwargs['item_pk'])
