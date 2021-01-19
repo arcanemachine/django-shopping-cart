@@ -132,7 +132,7 @@ LOGOUT_REDIRECT_URL = 'project_root'
 # corsheaders
 
 CORS_ALLOWED_ORIGINS = server_config.CORS_ALLOWED_ORIGINS
-CORS_ALLOW_ALL_ORIGINS = server_config.CORS_ALLOW_ALL_ORIGINS
+# CORS_ALLOW_ALL_ORIGINS = server_config.CORS_ALLOW_ALL_ORIGINS
 
 # media files
 
