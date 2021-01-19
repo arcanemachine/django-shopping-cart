@@ -6,7 +6,7 @@ class StoreSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Store
-        fields = ['id', 'name', 'registrant', 'image']
+        fields = ['id', 'name', 'description', 'registrant', 'image']
         read_only_fields = ['registrant']
 
     def create(self, validated_data):
