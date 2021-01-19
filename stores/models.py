@@ -10,6 +10,7 @@ class Store(models.Model):
     registrant = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=128)
+    description = models.CharField(max_length=255)
     image = models.ImageField(upload_to=name_file, blank=True, null=True)
 
 

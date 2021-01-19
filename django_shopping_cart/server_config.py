@@ -1,11 +1,15 @@
 from os.path import join as os_path_join
 from pathlib import Path
 
+PROJECT_NAME = "Django Shopping Cart"
 SERVER_NAME = 'dev'
 SERVER_LOCATION = '192.168.1.120:8000'
 DEBUG = True
 
 BASE_DIR = str(Path(__file__).resolve().parent.parent)
+
+CORS_ALLOWED_ORIGINS = []
+CORS_ALLOW_ALL_ORIGINS = True
 
 DB_NAME = os_path_join(BASE_DIR, 'db.sqlite3')
 

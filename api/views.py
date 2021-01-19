@@ -12,7 +12,7 @@ def api_root(request):
 
 
 class StoreList(generics.ListCreateAPIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset = Store.objects.all()
     serializer_class = serializers.StoreSerializer
 
@@ -27,7 +27,7 @@ class StoreDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class CategoryList(generics.ListCreateAPIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     serializer_class = serializers.CategorySerializer
 
     def check_permissions(self, request):
@@ -59,7 +59,7 @@ class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class ItemList(generics.ListCreateAPIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     serializer_class = serializers.ItemSerializer
 
     def check_permissions(self, request):

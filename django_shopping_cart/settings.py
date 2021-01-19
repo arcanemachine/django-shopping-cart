@@ -32,12 +32,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # local
     'stores.apps.StoresConfig',
+    'users.apps.UsersConfig',
+    # third-party
+    'corsheaders',
     'rest_framework',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -58,6 +62,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django_shopping_cart.context_processors.constants',
             ],
         },
     },
@@ -118,6 +123,17 @@ STATICFILES_DIRS = server_config.STATICFILES_DIRS
 STATIC_ROOT = server_config.STATIC_ROOT
 
 
+# authentication
+
+LOGIN_URL = 'users:login'
+LOGIN_REDIRECT_URL = 'users:user_detail'
+LOGOUT_REDIRECT_URL = 'project_root'
+
+# corsheaders
+
+CORS_ALLOWED_ORIGINS = server_config.CORS_ALLOWED_ORIGINS
+CORS_ALLOW_ALL_ORIGINS = server_config.CORS_ALLOW_ALL_ORIGINS
+
 # media files
 
 MEDIA_ROOT = server_config.MEDIA_ROOT
@@ -129,7 +145,7 @@ MEDIA_URL = '/media/'
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny'],
-        #'rest_framework.permissions.IsAuthenticated'],
+        # 'rest_framework.permissions.IsAuthenticatedOrReadOnly'],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication']
     }
