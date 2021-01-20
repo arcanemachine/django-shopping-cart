@@ -3,8 +3,11 @@ from pathlib import Path
 
 PROJECT_NAME = "Django Shopping Cart"
 SERVER_NAME = 'dev'
-SERVER_LOCATION = 'http://192.168.1.120:8000'
+SERVER_LOCATION = 'http://192.168.1.100:8000'
 DEBUG = True
+
+FRONTEND_SERVER_LOCATION = 'http://192.168.1.100:8080'
+FRONTEND_LOGIN_URL = '/login/'
 
 BASE_DIR = str(Path(__file__).resolve().parent.parent)
 

@@ -8,9 +8,11 @@ from django_shopping_cart import server_config
 
 urlpatterns = [
     path('', views.project_root, name='project_root'),
+    path('get_csrftoken/', views.get_csrftoken, name='get_csrftoken'),
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
     path('api/v1/', include('api.urls')),
+    # path('api/rest-auth/', include('dj_rest_auth.urls')),
     path('api-auth/', include('rest_framework.urls')),
 ]
 

@@ -9,6 +9,8 @@ djangorestframework = "*"
 ipython = "*"
 pillow = "*"
 django-cors-headers = "*"
+dj-rest-auth = "*"
+requests = "*"
 
 [dev-packages]
 
