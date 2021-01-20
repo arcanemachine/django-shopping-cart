@@ -19,12 +19,13 @@ class StoreSerializer(serializers.ModelSerializer):
 
 class CategorySerializer(serializers.ModelSerializer):
     store_name = serializers.CharField(max_length=128, read_only=True)
+    store_id = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Category
-        fields = ['id', 'name', 'description', 'image',
-                  'store_id', 'store_name']
-        read_only_fields = ['store_name', 'store']
+        fields = \
+            ['id', 'name', 'description', 'image', 'store_name', 'store_id']
+        read_only_fields = ['store_name', 'store_id']
 
     def __init__(self, *args, **kwargs):
         if 'context' in kwargs and kwargs['context'].get('store_pk'):
@@ -40,18 +41,23 @@ class CategorySerializer(serializers.ModelSerializer):
                 'name': instance.name,
                 'description': instance.description,
                 'store_name': instance.store.name,
-                'store': instance.store.pk}
+                'store_id': instance.store.id}
 
 
 class ItemSerializer(serializers.ModelSerializer):
     price = serializers.IntegerField(initial=0, allow_null=True)
 
+    category_name = serializers.CharField(max_length=128, read_only=True)
+    category_id = serializers.IntegerField(read_only=True)
+    store_name = serializers.CharField(max_length=128, read_only=True)
+    store_id = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = Item
         fields = ['id', 'name', 'description', 'price', 'image',
                   'category_name', 'category_id', 'store_name', 'store_id']
-        read_only_fields = ['category', 'category_name', 'category_id',
-                            'store_name', 'store_id']
+        read_only_fields = \
+            ['category_name', 'category_id', 'store_name', 'store_id']
 
     def __init__(self, *args, **kwargs):
         if 'context' in kwargs and kwargs['context'].get('category_pk'):
@@ -69,6 +75,6 @@ class ItemSerializer(serializers.ModelSerializer):
                 'description': instance.description,
                 'price': instance.price,
                 'category_name': instance.category.name,
-                'category': instance.category.pk,
+                'category_id': instance.category.id,
                 'store_name': instance.category.store.name,
-                'store': instance.category.store.pk}
+                'store_id': instance.category.store.id}
