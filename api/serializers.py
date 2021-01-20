@@ -22,7 +22,8 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ['id', 'store', 'store_name', 'name', 'description', 'image']
+        fields = ['id', 'name', 'description', 'image',
+                  'store_id', 'store_name']
         read_only_fields = ['store_name', 'store']
 
     def __init__(self, *args, **kwargs):
@@ -47,8 +48,10 @@ class ItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Item
-        fields = ['id', 'category', 'name', 'description', 'price', 'image']
-        read_only_fields = ['category']
+        fields = ['id', 'name', 'description', 'price', 'image',
+                  'category_name', 'category_id', 'store_name', 'store_id']
+        read_only_fields = ['category', 'category_name', 'category_id',
+                            'store_name', 'store_id']
 
     def __init__(self, *args, **kwargs):
         if 'context' in kwargs and kwargs['context'].get('category_pk'):
