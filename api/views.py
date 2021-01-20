@@ -6,6 +6,13 @@ from .permissions import HasStorePermissionsOrReadOnly
 from stores.models import Store, Category, Item
 
 
+class CheckObjectPermissionsMixin:
+    def check_permissions(self, request):
+        super().check_permissions(request)
+        obj = Store.objects.get(pk=self.kwargs['store_pk'])
+        super().check_object_permissions(request, obj)
+
+
 def api_root(request):
     return JsonResponse({'message': 'hello world!'})
 
@@ -19,11 +26,6 @@ class StoreList(generics.ListCreateAPIView):
 
 class StoreCategoryList(generics.ListCreateAPIView):
     serializer_class = serializers.CategorySerializer
-
-    def check_permissions(self, request):
-        super().check_permissions(request)
-        obj = Store.objects.get(pk=self.kwargs['store_pk'])
-        super().check_object_permissions(request, obj)
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
@@ -39,7 +41,7 @@ class CategoryItemList(generics.ListCreateAPIView):
 
     def check_permissions(self, request):
         super().check_permissions(request)
-        obj = Store.objects.get(pk=self.kwargs['store_pk'])
+        obj = self.get_queryset()
         super().check_object_permissions(request, obj)
 
     def get_serializer_context(self):
@@ -53,7 +55,8 @@ class CategoryItemList(generics.ListCreateAPIView):
 
 # detail
 
-class StoreDetail(generics.RetrieveUpdateDestroyAPIView):
+class StoreDetail(
+        generics.RetrieveUpdateDestroyAPIView, CheckObjectPermissionsMixin):
     permission_classes = [HasStorePermissionsOrReadOnly]
     serializer_class = serializers.StoreSerializer
     lookup_url_kwarg = 'store_pk'
@@ -62,7 +65,8 @@ class StoreDetail(generics.RetrieveUpdateDestroyAPIView):
         return Store.objects.filter(pk=self.kwargs['store_pk'])
 
 
-class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
+class CategoryDetail(
+        generics.RetrieveUpdateDestroyAPIView, CheckObjectPermissionsMixin):
     permission_classes = [HasStorePermissionsOrReadOnly]
     serializer_class = serializers.CategorySerializer
     lookup_url_kwarg = 'category_pk'
@@ -76,7 +80,8 @@ class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
         return Category.objects.filter(pk=self.kwargs['category_pk'])
 
 
-class ItemDetail(generics.RetrieveUpdateDestroyAPIView):
+class ItemDetail(
+        generics.RetrieveUpdateDestroyAPIView, CheckObjectPermissionsMixin):
     permission_classes = [HasStorePermissionsOrReadOnly]
     serializer_class = serializers.ItemSerializer
     lookup_url_kwarg = 'item_pk'
