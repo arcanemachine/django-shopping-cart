@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from django_shopping_cart.server_config import SERVER_LOCATION
 from stores.models import Store, Category, Item
 
 class StoreSerializer(serializers.ModelSerializer):
@@ -37,9 +38,12 @@ class CategorySerializer(serializers.ModelSerializer):
         return category
 
     def to_representation(self, instance):
+        image_repr = \
+            SERVER_LOCATION + instance.image.url if instance.image else None
         return {'id': instance.id,
                 'name': instance.name,
                 'description': instance.description,
+                'image': image_repr,
                 'store_name': instance.store.name,
                 'store_id': instance.store.id}
 
@@ -70,10 +74,13 @@ class ItemSerializer(serializers.ModelSerializer):
         return item
 
     def to_representation(self, instance):
+        image_repr = \
+            SERVER_LOCATION + instance.image.url if instance.image else None
         return {'id': instance.id,
                 'name': instance.name,
                 'description': instance.description,
                 'price': instance.price,
+                'image': image_repr,
                 'category_name': instance.category.name,
                 'category_id': instance.category.id,
                 'store_name': instance.category.store.name,
