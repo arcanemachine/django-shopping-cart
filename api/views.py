@@ -78,6 +78,21 @@ class UserDetail(generics.RetrieveAPIView):
         return token.user
 
 
+class CartUpdate(generics.UpdateAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = serializers.UserSerializer
+
+    def get_object(self):
+        try:
+            auth_header_string = self.request.headers.get('Authorization')
+            key = auth_header_string.split(' ')[1]
+        except:
+            raise ValueError(
+                "'Authorization' header and token not found in request.")
+        token = get_object_or_404(Token, key=key)
+        return token.user
+
+
 class StoreDetail(
         generics.RetrieveUpdateDestroyAPIView, CheckObjectPermissionsMixin):
     permission_classes = [HasStorePermissionsOrReadOnly]
