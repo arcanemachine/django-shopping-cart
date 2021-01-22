@@ -1,10 +1,20 @@
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 from django_shopping_cart.server_config import SERVER_LOCATION
 from stores.models import Store, Category, Item
 
-class StoreSerializer(serializers.ModelSerializer):
+UserModel = get_user_model()
 
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserModel
+        fields = ['id', 'username']
+        read_only_fields = ['username']
+
+
+class StoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Store
         fields = ['id', 'name', 'description', 'registrant', 'image']

@@ -20,6 +20,9 @@ urlpatterns = [
          name='item_list'),
 
     # detail
+    path('users/',
+         views.UserDetail.as_view(),
+         name='user_detail'),
     path('stores/<int:store_pk>/',
          views.StoreDetail.as_view(),
          name='store_detail'),
