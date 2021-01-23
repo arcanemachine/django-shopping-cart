@@ -78,7 +78,7 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
         return token.user
 
     def destroy(self, request, *args, **kwargs):
-        return JsonResponse({'message': 'DELETE method not allowed for user'})
+        return JsonResponse({'message': 'DELETE method not allowed for User'})
 
 
 class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -97,7 +97,7 @@ class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
 
     def destroy(self, request, *args, **kwargs):
         return JsonResponse(
-            {'message': 'DELETE method not allowed for user'})
+            {'message': 'DELETE method not allowed for Profile'})
 
 
 class StoreDetail(

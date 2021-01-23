@@ -11,6 +11,7 @@ from django.urls import reverse, reverse_lazy
 
 from . import forms
 
+
 def users_root(request):
     return HttpResponseRedirect(reverse('users:user_detail'))
 
