@@ -3,6 +3,7 @@ from rest_framework import serializers
 
 from django_shopping_cart.server_config import SERVER_LOCATION
 from stores.models import Store, Category, Item
+from users.models import Profile
 
 UserModel = get_user_model()
 
@@ -12,6 +13,12 @@ class UserSerializer(serializers.ModelSerializer):
         model = UserModel
         fields = ['id', 'username']
         read_only_fields = ['username']
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ['cart']
 
 
 class StoreSerializer(serializers.ModelSerializer):

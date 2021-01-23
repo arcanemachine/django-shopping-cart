@@ -20,12 +20,12 @@ urlpatterns = [
          name='item_list'),
 
     # detail
-    path('users/',
+    path('user/',
          views.UserDetail.as_view(),
          name='user_detail'),
-    path('cart/',
-         views.CartUpdate.as_view(),
-         name='cart_update'),
+    path('user/profile/',
+         views.ProfileDetail.as_view(),
+         name='profile_detail'),
     path('stores/<int:store_pk>/',
          views.StoreDetail.as_view(),
          name='store_detail'),

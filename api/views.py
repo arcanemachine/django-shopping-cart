@@ -62,7 +62,7 @@ class CategoryItemList(generics.ListCreateAPIView):
 
 # detail
 
-class UserDetail(generics.RetrieveAPIView):
+class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     """Return a User model that matches the token entered."""
     permission_classes = [AllowAny]
     serializer_class = serializers.UserSerializer
@@ -77,10 +77,13 @@ class UserDetail(generics.RetrieveAPIView):
         token = get_object_or_404(Token, key=key)
         return token.user
 
+    def destroy(self, request, *args, **kwargs):
+        return JsonResponse({'message': 'DELETE method not allowed for user'})
 
-class CartUpdate(generics.UpdateAPIView):
+
+class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [AllowAny]
-    serializer_class = serializers.UserSerializer
+    serializer_class = serializers.ProfileSerializer
 
     def get_object(self):
         try:
@@ -90,7 +93,11 @@ class CartUpdate(generics.UpdateAPIView):
             raise ValueError(
                 "'Authorization' header and token not found in request.")
         token = get_object_or_404(Token, key=key)
-        return token.user
+        return token.user.profile
+
+    def destroy(self, request, *args, **kwargs):
+        return JsonResponse(
+            {'message': 'DELETE method not allowed for user'})
 
 
 class StoreDetail(

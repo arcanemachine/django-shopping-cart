@@ -7,8 +7,12 @@ from . import views
 from django_shopping_cart import server_config
 
 urlpatterns = [
+    
+    # experimental views
     path('', views.project_root, name='project_root'),
+    path('hello-cookie/', views.hello_cookie, name='hello_cookie'),
     path('get_csrftoken/', views.get_csrftoken, name='get_csrftoken'),
+
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),
     path('api/v1/', include('api.urls')),
