@@ -17,7 +17,10 @@ urlpatterns = [
          name='store_category_list'),
     path('categories/<int:category_pk>/items/',
          views.CategoryItemList.as_view(),
-         name='item_list'),
+         name='category_item_list'),
+    path('items/<str:item_csv_string>/',
+         views.CartItemList.as_view(),
+         name='cart_item_list'),
 
     # detail
     path('user/',

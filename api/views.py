@@ -60,6 +60,19 @@ class CategoryItemList(generics.ListCreateAPIView):
         return Item.objects.filter(category=self.kwargs['category_pk'])
 
 
+class CartItemList(generics.ListCreateAPIView):
+    serializer_class = serializers.ItemSerializer
+
+    def check_permissions(self, request):
+        super().check_permissions(request)
+        obj = self.get_queryset()
+        super().check_object_permissions(request, obj)
+
+    def get_queryset(self):
+        item_csv_string = self.kwargs['item_csv_string'].split(',')
+        return Item.objects.filter(pk__in=item_csv_string)
+
+
 # detail
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
