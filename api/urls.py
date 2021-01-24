@@ -45,8 +45,17 @@ urlpatterns = [
          views.ItemDetail.as_view(),
          name='item_detail'),
 
-    # update
-    path('cart/<int:item_pk>/<str:quantity>/',
+    # cart
+    path('cart/',
+         views.CartDetail.as_view(),
+         name='cart_detail'),
+    path('cart/update/<int:item_pk>/<str:quantity>/',
          views.CartUpdate.as_view(),
          name='cart_update'),
+    path('cart/clear/<int:item_pk>/',
+         views.CartClearItem.as_view(),
+         name='cart_clear_item'),
+    path('cart/clear/all/',
+         views.CartClearAll.as_view(),
+         name='cart_clear_all'),
 ]

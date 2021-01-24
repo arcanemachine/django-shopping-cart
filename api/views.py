@@ -175,10 +175,9 @@ class ItemDetail(
 
 # update
 
-class CartUpdate(generics.UpdateAPIView, CheckObjectPermissionsMixin):
+class CartDetail(generics.RetrieveAPIView, CheckObjectPermissionsMixin):
     permission_classes = [HasStorePermissionsOrReadOnly]
     serializer_class = serializers.CartSerializer
-    # lookup_url_kwarg = 'item_pk'
 
     def check_permissions(self, request):
         super().check_permissions(request)
@@ -187,9 +186,31 @@ class CartUpdate(generics.UpdateAPIView, CheckObjectPermissionsMixin):
 
     def get_queryset(self):
         return Profile.objects.filter(pk__in=[self.get_object().pk])
-    # def get_object(self):
-    #    print('get_object()')
-    #    breakpoint()
+
+    def get_object(self):
+        if self.request.user.is_authenticated:
+            return self.request.user.profile
+        try:
+            auth_header_string = self.request.headers.get('Authorization')
+            key = auth_header_string.split(' ')[1]
+        except Exception:
+            raise ValueError(
+                "'Authorization' header and token not found in request.")
+        token = get_object_or_404(Token, key=key)
+        return token.user.profile
+
+
+class CartUpdate(generics.UpdateAPIView, CheckObjectPermissionsMixin):
+    permission_classes = [HasStorePermissionsOrReadOnly]
+    serializer_class = serializers.CartSerializer
+
+    def check_permissions(self, request):
+        super().check_permissions(request)
+        obj = self.get_object()
+        super().check_object_permissions(request, obj)
+
+    def get_queryset(self):
+        return Profile.objects.filter(pk__in=[self.get_object().pk])
 
     def get_object(self):
         if self.request.user.is_authenticated:
@@ -205,7 +226,7 @@ class CartUpdate(generics.UpdateAPIView, CheckObjectPermissionsMixin):
 
     def post(self, request, *args, **kwargs):
         instance = self.get_object()
-        cart = self.get_object().cart
+        cart = self.instance.cart
         str_item_pk = str(self.kwargs['item_pk'])
         try:
             quantity = int(self.kwargs['quantity'])
@@ -238,3 +259,81 @@ class CartUpdate(generics.UpdateAPIView, CheckObjectPermissionsMixin):
         if serializer.is_valid():
             serializer.save()
         return Response(serializer.data)
+
+
+class CartClearItem(generics.UpdateAPIView, CheckObjectPermissionsMixin):
+    permission_classes = [HasStorePermissionsOrReadOnly]
+    serializer_class = serializers.CartSerializer
+
+    def check_permissions(self, request):
+        super().check_permissions(request)
+        obj = self.get_object()
+        super().check_object_permissions(request, obj)
+
+    def get_queryset(self):
+        return Profile.objects.filter(pk__in=[self.get_object().pk])
+
+    def get_object(self):
+        if self.request.user.is_authenticated:
+            return self.request.user.profile
+        try:
+            auth_header_string = self.request.headers.get('Authorization')
+            key = auth_header_string.split(' ')[1]
+        except Exception:
+            raise ValueError(
+                "'Authorization' header and token not found in request.")
+        token = get_object_or_404(Token, key=key)
+        return token.user.profile
+
+    def post(self, request, *args, **kwargs):
+        instance = self.get_object()
+        cart = self.instance.cart
+        str_item_pk = str(self.kwargs['item_pk'])
+        
+        # if item is in the cart, remove it
+        if str_item_pk in cart:
+            del cart[str_item_pk]
+
+        # save the cart info and return the cart
+        serializer = \
+            self.get_serializer(instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+        return Response(serializer.data)
+
+
+class CartClearAll(generics.UpdateAPIView, CheckObjectPermissionsMixin):
+    permission_classes = [HasStorePermissionsOrReadOnly]
+    serializer_class = serializers.CartSerializer
+
+    def check_permissions(self, request):
+        super().check_permissions(request)
+        obj = self.get_object()
+        super().check_object_permissions(request, obj)
+
+    def get_queryset(self):
+        return Profile.objects.filter(pk__in=[self.get_object().pk])
+
+    def get_object(self):
+        if self.request.user.is_authenticated:
+            return self.request.user.profile
+        try:
+            auth_header_string = self.request.headers.get('Authorization')
+            key = auth_header_string.split(' ')[1]
+        except Exception:
+            raise ValueError(
+                "'Authorization' header and token not found in request.")
+        token = get_object_or_404(Token, key=key)
+        return token.user.profile
+
+    def post(self, request, *args, **kwargs):
+        instance = self.get_object()
+        instance.cart = {}
+        
+        # save the cart info and return the cart
+        serializer = \
+            self.get_serializer(instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+        return Response(serializer.data)
+
