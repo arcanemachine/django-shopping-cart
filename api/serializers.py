@@ -46,7 +46,7 @@ class CartSerializer(ProfileSerializer):
         fields = ['id', 'user', 'cart', 'cart_modified_at',
                   'first_name', 'last_name', 'address1', 'address2',
                   'city', 'state', 'zip_code', 'country', 'phone_number']
-        read_only_fields = ['id', 'user', 'cart', 'cart_modified_at',
+        read_only_fields = ['id', 'user', 'cart_modified_at',
                   'first_name', 'last_name', 'address1', 'address2',
                   'city', 'state', 'zip_code', 'country', 'phone_number']
 
