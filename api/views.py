@@ -201,6 +201,10 @@ class CartDetail(generics.RetrieveAPIView, CheckObjectPermissionsMixin):
 
 
 class CartUpdate(generics.UpdateAPIView, CheckObjectPermissionsMixin):
+    """/api/v1/[item_id]/[quantity]/
+
+    Use POST to add the desired quantity of item_id to the cart.
+    """
     permission_classes = [HasStorePermissionsOrReadOnly]
     serializer_class = serializers.CartSerializer
 
@@ -224,9 +228,16 @@ class CartUpdate(generics.UpdateAPIView, CheckObjectPermissionsMixin):
         token = get_object_or_404(Token, key=key)
         return token.user.profile
 
+    def get(self, request, *args, **kwargs):
+        serializer = self.get_serializer(
+            self.get_object(), data=request.data, partial=True)
+        if serializer.is_valid():
+            pass
+        return Response(serializer.data)
+
     def post(self, request, *args, **kwargs):
         instance = self.get_object()
-        cart = self.instance.cart
+        cart = instance.cart
         str_item_pk = str(self.kwargs['item_pk'])
         try:
             quantity = int(self.kwargs['quantity'])
