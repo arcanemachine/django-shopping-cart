@@ -205,7 +205,7 @@ class CartDetail(
         return token.user.profile
 
 
-class CartUpdate(generics.UpdateAPIView, CheckObjectPermissionsMixin):
+class CartItemUpdate(generics.UpdateAPIView, CheckObjectPermissionsMixin):
     """/api/v1/[item_id]/[quantity]/
 
     Use empty POST to add/remove the desired quantity of item_id to the cart.
@@ -222,7 +222,6 @@ class CartUpdate(generics.UpdateAPIView, CheckObjectPermissionsMixin):
 
     def get_queryset(self):
         return Profile.objects.filter(pk__in=[self.get_object().pk])
-
 
     def get_object(self):
         if self.request.user.is_authenticated:
