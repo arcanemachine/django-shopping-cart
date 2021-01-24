@@ -226,7 +226,7 @@ class CartUpdate(generics.UpdateAPIView, CheckObjectPermissionsMixin):
             auth_header_string = self.request.headers.get('Authorization')
             key = auth_header_string.split(' ')[1]
         except Exception:
-            raise ValueError(
+            raise AttributeError(
                 "'Authorization' header and token not found in request.")
         token = get_object_or_404(Token, key=key)
         return token.user.profile
@@ -240,15 +240,14 @@ class CartUpdate(generics.UpdateAPIView, CheckObjectPermissionsMixin):
 
     def post(self, request, *args, **kwargs):
         instance = self.get_object()
-        if 'cart' in request.data:
-            if type(request.data['cart']) == dict:
-                cart = request.data['cart']
-                data = request.data
-                manual_update = True
-            else:
-                cart = instance.cart
-                data = cart
-                manual_update = False
+        if 'cart' in request.data and type(request.data['cart']) == dict:
+            cart = request.data['cart']
+            data = request.data
+            manual_update = True
+        else:
+            cart = instance.cart
+            data = cart
+            manual_update = False
         str_item_pk = str(self.kwargs['item_pk'])
         try:
             quantity = int(self.kwargs['quantity'])
