@@ -5,9 +5,13 @@ from django.utils import timezone
 UserModel = get_user_model()
 
 class Profile(models.Model):
+
+    def get_very_old_timestamp():
+        return timezone.datetime(1970, 1, 1).astimezone(timezone.utc)
+
     user = models.OneToOneField(UserModel, on_delete=models.CASCADE)
     cart = models.JSONField(default=dict)
-    cart_modified_at = models.DateTimeField(default=timezone.now)
+    cart_modified_at = models.DateTimeField(default=get_very_old_timestamp)
 
     first_name = models.CharField(max_length=255, blank=False, null=True)
     last_name = models.CharField(max_length=255, blank=False, null=True)
@@ -18,7 +22,6 @@ class Profile(models.Model):
     state = models.CharField(max_length=255, blank=False, null=True)
     country = models.CharField(max_length=255, blank=False, null=True)
     phone_number = models.CharField(max_length=255, blank=True, null=True)
-
 
     def __str__(self):
         return f"user '{self.user.username}'"
