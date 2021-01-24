@@ -175,7 +175,8 @@ class ItemDetail(
 
 # update
 
-class CartDetail(generics.RetrieveAPIView, CheckObjectPermissionsMixin):
+class CartDetail(
+        generics.RetrieveUpdateDestroyAPIView, CheckObjectPermissionsMixin):
     permission_classes = [HasStorePermissionsOrReadOnly]
     serializer_class = serializers.CartSerializer
 
@@ -183,6 +184,10 @@ class CartDetail(generics.RetrieveAPIView, CheckObjectPermissionsMixin):
         super().check_permissions(request)
         obj = self.get_object()
         super().check_object_permissions(request, obj)
+
+    def destroy(self, request, *args, **kwargs):
+        return JsonResponse(
+            {'message': 'DELETE method not allowed for Profile'})
 
     def get_queryset(self):
         return Profile.objects.filter(pk__in=[self.get_object().pk])
@@ -240,14 +245,9 @@ class CartUpdate(generics.UpdateAPIView, CheckObjectPermissionsMixin):
 
     def post(self, request, *args, **kwargs):
         instance = self.get_object()
-        if 'cart' in request.data and type(request.data['cart']) == dict:
-            cart = request.data['cart']
-            data = request.data
-            manual_update = True
-        else:
-            cart = instance.cart
-            data = cart
-            manual_update = False
+
+        cart = data = instance.cart
+
         str_item_pk = str(self.kwargs['item_pk'])
         try:
             quantity = int(self.kwargs['quantity'])
@@ -258,24 +258,23 @@ class CartUpdate(generics.UpdateAPIView, CheckObjectPermissionsMixin):
         get_object_or_404(Item, pk=str_item_pk)
 
         # determine action type based on the quantity entered (add/remove)
-        if not manual_update or request.method == 'GET':
-            if quantity == 0:
-                return JsonResponse(
-                    {'message':
-                        'Enter an integer value to add or remove items'})
-            elif quantity > 0:
-                if str_item_pk in cart.keys():
-                    cart[str_item_pk] += quantity
-                else:
-                    cart[str_item_pk] = quantity
-            elif quantity < 0:
-                quantity = abs(quantity)
-                if str_item_pk not in cart:
-                    pass
-                elif cart[str_item_pk] - quantity <= 0:
-                    del cart[str_item_pk]
-                else:
-                    cart[str_item_pk] = cart[str_item_pk] - quantity
+        if quantity == 0:
+            return JsonResponse(
+                {'message':
+                    'Enter an integer value to add or remove items'})
+        elif quantity > 0:
+            if str_item_pk in cart.keys():
+                cart[str_item_pk] += quantity
+            else:
+                cart[str_item_pk] = quantity
+        elif quantity < 0:
+            quantity = abs(quantity)
+            if str_item_pk not in cart:
+                pass
+            elif cart[str_item_pk] - quantity <= 0:
+                del cart[str_item_pk]
+            else:
+                cart[str_item_pk] = cart[str_item_pk] - quantity
         serializer = \
             self.get_serializer(instance, data=data, partial=True)
         if serializer.is_valid():
