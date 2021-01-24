@@ -24,9 +24,15 @@ urlpatterns = [
 
     # detail
     path('user/',
+         views.UserTokenDetail.as_view(),
+         name='user_token_detail'),
+    path('user/profile/',
+         views.ProfileTokenDetail.as_view(),
+         name='profile_token_detail'),
+    path('user/<int:user_pk>/',
          views.UserDetail.as_view(),
          name='user_detail'),
-    path('user/profile/',
+    path('user/<int:user_pk>/profile/',
          views.ProfileDetail.as_view(),
          name='profile_detail'),
     path('stores/<int:store_pk>/',

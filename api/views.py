@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.authtoken.models import Token
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
@@ -77,9 +78,22 @@ class CartItemList(generics.ListCreateAPIView):
 # detail
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
-    """Return a User model that matches the token entered."""
     permission_classes = [AllowAny]
     serializer_class = serializers.UserSerializer
+
+    def get_object(self):
+        if self.request.user.is_authenticated \
+                and self.request.user.pk == self.kwargs['user_pk']:
+            return get_object_or_404(UserModel, pk=self.kwargs['user_pk'])
+        else:
+            raise PermissionDenied({'message': "Permission denied."})
+
+    def destroy(self, request, *args, **kwargs):
+        return JsonResponse({'message': 'DELETE method not allowed for User'})
+
+
+class UserTokenDetail(UserDetail):
+    """Return a User model that matches the token entered."""
 
     def get_object(self):
         try:
@@ -91,27 +105,32 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
         token = get_object_or_404(Token, key=key)
         return token.user
 
-    def destroy(self, request, *args, **kwargs):
-        return JsonResponse({'message': 'DELETE method not allowed for User'})
-
 
 class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [AllowAny]
     serializer_class = serializers.ProfileSerializer
 
     def get_object(self):
+        if self.request.user.is_staff or self.request.user.is_authenticated \
+                and self.request.user.pk == self.kwargs['user_pk']:
+            return get_object_or_404(
+                UserModel, pk=self.kwargs['user_pk']).profile
+
+    def destroy(self, request, *args, **kwargs):
+        return JsonResponse(
+            {'message': 'DELETE method not allowed for Profile'})
+
+
+class ProfileTokenDetail(ProfileDetail):
+    def get_object(self):
         try:
             auth_header_string = self.request.headers.get('Authorization')
             key = auth_header_string.split(' ')[1]
         except Exception:
             raise ValueError(
-                "'Authorization' header and token not found in request.")
+                "'Authorization' header and token not found in request. ")
         token = get_object_or_404(Token, key=key)
         return token.user.profile
-
-    def destroy(self, request, *args, **kwargs):
-        return JsonResponse(
-            {'message': 'DELETE method not allowed for Profile'})
 
 
 class StoreDetail(
