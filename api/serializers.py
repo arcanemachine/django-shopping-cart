@@ -23,6 +23,12 @@ class ProfileSerializer(serializers.ModelSerializer):
                   'city', 'state', 'zip_code', 'country', 'phone_number']
 
 
+class CartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ['cart']
+
+
 class StoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Store

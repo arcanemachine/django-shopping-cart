@@ -38,4 +38,9 @@ urlpatterns = [
     path('items/<int:item_pk>/',
          views.ItemDetail.as_view(),
          name='item_detail'),
+
+    # update
+    path('cart/<int:item_pk>/<str:quantity>/',
+         views.CartUpdate.as_view(),
+         name='cart_update'),
 ]

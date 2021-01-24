@@ -1,6 +1,7 @@
 from rest_framework import permissions
 
 from stores.models import Store, Category, Item
+from users.models import Profile
 
 
 class HasStorePermissionsOrReadOnly(permissions.BasePermission):
@@ -12,12 +13,14 @@ class HasStorePermissionsOrReadOnly(permissions.BasePermission):
             return False
         elif request.user.is_staff:
             return True
-        elif type(obj) == Store:
+        elif type(obj) == Profile:
             return obj.user == request.user
+        elif type(obj) == Store:
+            return obj.registrant == request.user
         elif type(obj) == Category:
-            return obj.store.user == request.user
+            return obj.store.registrant == request.user
         elif type(obj) == Item:
-            return obj.category.store.user == request.user
+            return obj.category.store.registrant == request.user
         else:
             raise TypeError("This permission can only be used with a "
                             "Store-related object.")
