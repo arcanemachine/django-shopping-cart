@@ -62,7 +62,7 @@ class CategoryItemList(generics.ListCreateAPIView):
         return Item.objects.filter(category=self.kwargs['category_pk'])
 
 
-class CartItemList(generics.ListCreateAPIView):
+class CartItemList(generics.ListAPIView):
     serializer_class = serializers.ItemSerializer
 
     def check_permissions(self, request):
