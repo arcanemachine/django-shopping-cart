@@ -1,4 +1,7 @@
+import json
+
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 from rest_framework import serializers
 
 from django_shopping_cart.server_config import SERVER_LOCATION
@@ -16,6 +19,19 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
+
+    def to_representation(self, instance):
+        def iso_time(dt_obj):
+            date_handler = lambda obj: (
+                obj.isoformat()
+                if isinstance(obj, (timezone.datetime, timezone.datetime.date))
+                else None)
+            return json.loads(json.dumps(dt_obj, default=date_handler))
+        data = super().to_representation(instance)
+        data.update({
+            'cart_modified_at': iso_time(instance.cart_modified_at)})
+        return data
+
     class Meta:
         model = Profile
         fields = ['id', 'user', 'cart', 'cart_modified_at',
@@ -23,17 +39,16 @@ class ProfileSerializer(serializers.ModelSerializer):
                   'city', 'state', 'zip_code', 'country', 'phone_number']
 
 
-class CartSerializer(serializers.ModelSerializer):
+class CartSerializer(ProfileSerializer):
+
     class Meta:
         model = Profile
-        # fields = ['cart', 'cart_modified_at',]
         fields = ['id', 'user', 'cart', 'cart_modified_at',
                   'first_name', 'last_name', 'address1', 'address2',
                   'city', 'state', 'zip_code', 'country', 'phone_number']
         read_only_fields = ['id', 'user', 'cart', 'cart_modified_at',
                   'first_name', 'last_name', 'address1', 'address2',
                   'city', 'state', 'zip_code', 'country', 'phone_number']
-        # read_only_fields = ['cart_modified_at',]
 
 
 class StoreSerializer(serializers.ModelSerializer):
