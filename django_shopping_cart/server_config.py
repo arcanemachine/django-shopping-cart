@@ -13,7 +13,7 @@ BASE_DIR = str(Path(__file__).resolve().parent.parent)
 
 CORS_ALLOWED_ORIGINS = \
     ['http://192.168.1.100:8080', 'http://192.168.1.120:8080',
-     'http://192.168.1.120:8081']
+    'http://192.168.1.120:8081', 'http://localhost:8080']
 CORS_ALLOW_ALL_ORIGINS = False
 
 DB_NAME = os_path_join(BASE_DIR, 'db.sqlite3')
