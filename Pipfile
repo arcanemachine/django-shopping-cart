@@ -11,6 +11,7 @@ pillow = "*"
 django-cors-headers = "*"
 dj-rest-auth = "*"
 requests = "*"
+gunicorn = "*"
 
 [dev-packages]
 
