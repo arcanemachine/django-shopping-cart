@@ -7,6 +7,13 @@
 
 {% block content %}
 
-<p>Hello {{ PROJECT_NAME }}!</p>
+<p>Welcome to the django-shopping-cart backend.</p>
+
+<ul>
+  <li>You can access the Vue frontend <a href="{{ FRONTEND_SERVER_LOCATION }}">here</a>.</li>
+  <li>You can access the browsable API <a href="{% url 'api:store_list' %}">here</a>.</li>
+</ul>
+
+<p>Check out this project on <a href="https://github.com/arcanemachine/django-shopping-cart">GitHub</a>.</p>
 
 {% endblock content %}
