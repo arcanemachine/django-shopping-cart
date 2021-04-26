@@ -309,7 +309,7 @@ class CartClearItem(generics.UpdateAPIView, CheckObjectPermissionsMixin):
         instance = self.get_object()
         cart = self.instance.cart
         str_item_pk = str(self.kwargs['item_pk'])
-        
+
         # if item is in the cart, remove it
         if str_item_pk in cart:
             del cart[str_item_pk]
@@ -349,11 +349,10 @@ class CartClearAll(generics.UpdateAPIView, CheckObjectPermissionsMixin):
     def post(self, request, *args, **kwargs):
         instance = self.get_object()
         instance.cart = {}
-        
+
         # save the cart info and return the cart
         serializer = \
             self.get_serializer(instance, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
         return Response(serializer.data)
-

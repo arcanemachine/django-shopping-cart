@@ -9,6 +9,7 @@ todo
 base_template.html
 menus/templatetags/
 deleteme/
+server_config.py
 
 # npm #
 node_modules/
@@ -24,7 +25,7 @@ shell
 *.pot
 *.pyc
 __pycache__
-db.sqlite3
+# db.sqlite3
 media
 
 # Backup files # 
