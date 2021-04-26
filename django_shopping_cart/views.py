@@ -13,16 +13,16 @@ def project_root(request):
     return render(request, 'project_root.html')
 
 
-def hello_cookie(request):
-    response = \
-        HttpResponseRedirect(FRONTEND_SERVER_LOCATION + FRONTEND_LOGIN_URL)
-    response.set_cookie(key="hello", value=123, httponly=True)
-    return response
+# def hello_cookie(request):
+#     response = \
+#         HttpResponseRedirect(FRONTEND_SERVER_LOCATION + FRONTEND_LOGIN_URL)
+#     response.set_cookie(key="hello", value=123, httponly=True)
+#     return response
 
 
-@ensure_csrf_cookie
-def get_csrftoken(request):
-    response = \
-        HttpResponseRedirect(FRONTEND_SERVER_LOCATION + FRONTEND_LOGIN_URL)
-    response.set_cookie(key="hello", value=123)
-    return response
+# @ensure_csrf_cookie
+# def get_csrftoken(request):
+#     response = \
+#         HttpResponseRedirect(FRONTEND_SERVER_LOCATION + FRONTEND_LOGIN_URL)
+#     response.set_cookie(key="hello", value=123)
+#     return response
