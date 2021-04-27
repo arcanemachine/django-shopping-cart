@@ -128,7 +128,7 @@ STATIC_ROOT = server_config.STATIC_ROOT
 
 # authentication
 
-LOGIN_URL = 'users:login'
+LOGIN_URL = 'project_root'
 LOGIN_REDIRECT_URL = 'users:user_detail'
 LOGOUT_REDIRECT_URL = 'project_root'
 

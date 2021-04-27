@@ -24,7 +24,8 @@ class UserRegisterView(SuccessMessageMixin, CreateView):
 
     def dispatch(self, request, *args, **kwargs):
         if request.GET.get('frontend', None) == '1':
-            self.success_url = server_config.FRONTEND_SERVER_URL + '/login/'
+            self.success_url = \
+                server_config.FRONTEND_SERVER_LOCATION + '/login/'
         if self.request.user.is_authenticated:
             return HttpResponseRedirect(self.success_url)
         return super().dispatch(request, *args, **kwargs)
