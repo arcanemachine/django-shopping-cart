@@ -6,9 +6,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponseRedirect
 from django.views.generic import CreateView, DetailView
-from django.views.generic.edit import UpdateView
 from django.urls import reverse, reverse_lazy
 
+from django_shopping_cart import server_config
 from . import forms
 
 
@@ -23,6 +23,8 @@ class UserRegisterView(SuccessMessageMixin, CreateView):
     success_message = "You have successfully registered your account."
 
     def dispatch(self, request, *args, **kwargs):
+        if request.GET.get('frontend', None) == '1':
+            self.success_url = server_config.FRONTEND_SERVER_URL + '/login/'
         if self.request.user.is_authenticated:
             return HttpResponseRedirect(self.success_url)
         return super().dispatch(request, *args, **kwargs)
