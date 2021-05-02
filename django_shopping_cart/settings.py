@@ -129,7 +129,7 @@ STATIC_ROOT = server_config.STATIC_ROOT
 # authentication
 
 LOGIN_URL = 'project_root'
-LOGIN_REDIRECT_URL = 'users:user_detail'
+LOGIN_REDIRECT_URL = 'project_root'
 LOGOUT_REDIRECT_URL = 'project_root'
 
 # corsheaders

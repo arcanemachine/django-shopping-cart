@@ -2,7 +2,7 @@
 *~
 *.sw*
 data.dump
-db.sqlite3
+# db.sqlite3
 geckodriver.log
 secret_key.py
 gunicorn.sh 
