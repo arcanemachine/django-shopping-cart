@@ -2,14 +2,16 @@
 *~
 *.sw*
 data.dump
+db.sqlite3
 geckodriver.log
 secret_key.py
 gunicorn.sh 
 todo
 base_template.html
 menus/templatetags/
-deleteme/
 server_config.py
+staticfiles/
+mediafiles/
 
 # npm #
 node_modules/
