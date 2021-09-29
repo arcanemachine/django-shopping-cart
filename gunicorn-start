@@ -1,1 +1,1 @@
-gunicorn -w 3 -b 0.0.0.0:8002 django_shopping_cart.wsgi
+gunicorn -w 1 -b 0.0.0.0:8002 django_shopping_cart.wsgi
