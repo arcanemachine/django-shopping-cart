@@ -14,5 +14,5 @@ SERVER_LOCATION =\
 FRONTEND_SERVER_LOCATION = 'https://vue-shopping-cart2.surge.sh/'
 
 CORS_ALLOWED_ORIGINS = \
-    ['django-shopping-cart.nicholasmoen.com.test.moendigitalservices.com']
+    ['https://django-shopping-cart.nicholasmoen.com.test.moendigitalservices.com']  # noqa: E501
 CORS_ALLOW_ALL_ORIGINS = False
