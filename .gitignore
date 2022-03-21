@@ -9,8 +9,9 @@ keys.py
 gunicorn.sh 
 base_template.html
 menus/templatetags/
-deleteme/
 local-scripts/
+deleteme/
+deleteme
 
 # npm #
 node_modules/
@@ -29,9 +30,10 @@ node_modules/
 __pycache__
 # db.sqlite3
 
-# Backup files # 
+# temporary files
 *.bak 
 *.del
+*.tmp
 
 # If you are using PyCharm # 
 .idea/**/workspace.xml 
