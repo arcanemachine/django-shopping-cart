@@ -1,12 +1,12 @@
-from django.http import HttpResponseRedirect  # , JsonResponse
+# from django.http import HttpResponseRedirect  # , JsonResponse
 from django.shortcuts import render
-from django.views.decorators.csrf import ensure_csrf_cookie
+# from django.views.decorators.csrf import ensure_csrf_cookie
 # from django.views.decorators.clickjacking import xframe_options_exempt
 
 from django_shopping_cart import server_config
 
 FRONTEND_SERVER_LOCATION = server_config.FRONTEND_SERVER_LOCATION
-FRONTEND_LOGIN_URL = server_config.FRONTEND_LOGIN_URL
+FRONTEND_LOGIN_URL = '/login/'
 
 
 def project_root(request):

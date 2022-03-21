@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ "$PROJECT_PORT_INTERNAL" == "" ]; then
+  PROJECT_PORT_INTERNAL=8004
+fi
+
+stty sane
+./manage.py runserver 0.0.0.0:${PROJECT_PORT_INTERNAL}
