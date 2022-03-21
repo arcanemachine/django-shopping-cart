@@ -8,6 +8,5 @@ SERVER_LOCATION = 'https://django-shopping-cart.nicholasmoen.com/'
 
 FRONTEND_SERVER_LOCATION = 'https://vue-shopping-cart2.surge.sh/'
 
-CORS_ALLOWED_ORIGINS = \
-    ['https://django-shopping-cart.nicholasmoen.com']
+CORS_ALLOWED_ORIGINS = [FRONTEND_SERVER_LOCATION]
 CORS_ALLOW_ALL_ORIGINS = False
