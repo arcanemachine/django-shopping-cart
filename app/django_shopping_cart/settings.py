@@ -88,9 +88,9 @@ LOGIN_REDIRECT_URL = 'project_root'
 LOGOUT_REDIRECT_URL = 'project_root'
 
 # static
-STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/staticfiles/'
 
 
 # media files
