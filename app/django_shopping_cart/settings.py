@@ -1,10 +1,12 @@
 import os
 
+from pathlib import Path
+
 from django_shopping_cart import server_config
 
 SECRET_KEY = os.environ['SECRET_KEY']
 
-BASE_DIR = server_config.BASE_DIR
+BASE_DIR = str(Path(__file__).resolve().parent.parent)
 DEBUG = server_config.DEBUG
 ALLOWED_HOSTS = server_config.ALLOWED_HOSTS
 
@@ -42,7 +44,7 @@ ROOT_URLCONF = 'django_shopping_cart.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(server_config.BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -61,7 +63,7 @@ WSGI_APPLICATION = 'django_shopping_cart.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(server_config.BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
@@ -94,7 +96,7 @@ STATIC_URL = '/staticfiles/'
 
 
 # media files
-MEDIA_ROOT = os.path.join(server_config.BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 # corsheaders

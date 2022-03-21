@@ -1,7 +1,3 @@
-from os.path import join as os_path_join
-from pathlib import Path
-
-BASE_DIR = str(Path(__file__).resolve().parent.parent)
 DEBUG = False
 ALLOWED_HOSTS =\
     ['django-shopping-cart.nicholasmoen.com']
