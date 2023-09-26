@@ -7,7 +7,7 @@ SERVER_NAME = 'prod'
 SERVER_LOCATION =\
     'https://django-shopping-cart.test.moendigitalservices.com/'  # noqa: E501
 
-FRONTEND_SERVER_LOCATION = 'https://vue-shopping-cart2.surge.sh/'
+FRONTEND_SERVER_LOCATION = 'https://vue-shopping-cart.nicholasmoen.com/'
 
 CORS_ALLOWED_ORIGINS = []
 CORS_ALLOW_ALL_ORIGINS = True
